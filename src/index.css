@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@import "@neondatabase/auth-ui/tailwind";
+
+@theme {
+  --font-sans: "Geist", "Inter", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --color-primary: #000000;
+  --color-secondary: #ffffff;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f9f9f9;
+  color: #111111;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
