@@ -1,12 +1,11 @@
 // Shared currency formatting for the storefront and admin.
-// All monetary values in the app are whole Indonesian rupiah (no sub-unit).
+// All monetary values in the app are whole Kenyan shillings.
 
-const idrFormatter = new Intl.NumberFormat('id-ID', {
+const kesFormatter = new Intl.NumberFormat('en-KE', {
   style: 'currency',
-  currency: 'IDR',
+  currency: 'KES',
   minimumFractionDigits: 0,
   maximumFractionDigits: 0,
 });
 
-// Format a whole-rupiah number as e.g. "Rp 1.557.500".
-export const formatIDR = (value: number | string) => idrFormatter.format(Math.round(Number(value) || 0));
+export const formatKES = (value: number | string) => kesFormatter.format(Math.round(Number(value) || 0));

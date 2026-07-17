@@ -11,7 +11,7 @@ const AuthPage = () => {
   return (
     <div className="min-h-[70vh] flex flex-col items-center justify-center px-4 py-12">
       <Link to="/" className="text-2xl font-bold tracking-tighter uppercase mb-8">
-        RAWBLOX
+        KITENGI
       </Link>
 
       <div className="w-full max-w-md rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">

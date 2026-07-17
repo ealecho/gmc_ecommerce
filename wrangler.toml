@@ -1,5 +1,5 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
-name = "rawblocks"
+name = "kitengi"
 main = "./worker/index.ts"
 compatibility_date = "2026-06-12"
 compatibility_flags = ["nodejs_compat"]
@@ -11,11 +11,11 @@ not_found_handling = "single-page-application"
 run_worker_first = ["/api/*"]
 
 # R2 bucket for product image uploads. Create it once with:
-#   wrangler r2 bucket create rawblocks-media
+#   wrangler r2 bucket create kitengi-media
 # Files are written under `products/<uuid>.<ext>` and served back via /api/media/*.
 [[r2_buckets]]
 binding = "MEDIA"
-bucket_name = "rawblocks-media"
+bucket_name = "kitengi-media"
 
 # Non-secret vars can go here. Secrets (DATABASE_URL, NEON_AUTH_*) come
 # from `.dev.vars` in dev and `wrangler secret put` in production.

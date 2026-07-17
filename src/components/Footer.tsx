@@ -36,7 +36,7 @@ const Footer = () => {
         
         {/* Brand Section */}
         <FadeIn delay={0.1} direction="up" className="md:col-span-4">
-          <h2 className="text-3xl font-bold tracking-tighter uppercase mb-6">RAWBLOX</h2>
+          <h2 className="text-3xl font-bold tracking-tighter uppercase mb-6">KITENGI</h2>
           <p className="text-gray-400 font-mono text-sm leading-relaxed mb-8 max-w-sm">
             More than just a brand, we're a movement-connecting creatives, skaters, and trendsetters who define the streets.
           </p>
@@ -105,7 +105,7 @@ const Footer = () => {
 
       {/* Bottom Footer */}
       <FadeIn delay={0.6} direction="up" className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 font-mono text-xs">
-        <p>© 2026 Rawblox. All rights reserved.</p>
+        <p>© 2026 Kitengi. All rights reserved.</p>
         <div className="flex gap-6">
           <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
           <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

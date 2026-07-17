@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { ArrowUp, ArrowDown, Upload } from 'lucide-react';
 import { apiRequest, uploadFile } from '../lib/api';
-import { formatIDR } from '../lib/currency';
+import { formatKES } from '../lib/currency';
 
 import { Product } from '../types';
 
@@ -190,8 +190,8 @@ const AdminProducts = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <input value={form.price} onChange={(event) => updateField('price', event.target.value)} placeholder="Price (IDR)" type="number" step="1" min="0" className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black" />
-            <input value={form.originalPrice} onChange={(event) => updateField('originalPrice', event.target.value)} placeholder="Original price (IDR)" type="number" step="1" min="0" className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            <input value={form.price} onChange={(event) => updateField('price', event.target.value)} placeholder="Price (KES)" type="number" step="1" min="0" className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black" />
+            <input value={form.originalPrice} onChange={(event) => updateField('originalPrice', event.target.value)} placeholder="Original price (KES)" type="number" step="1" min="0" className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black" />
           </div>
 
           <label className="flex items-center gap-2 font-mono text-sm">
@@ -269,7 +269,7 @@ const AdminProducts = () => {
                 </div>
                 <p className="text-sm text-gray-500 mt-3 line-clamp-2">{product.description}</p>
                 <div className="flex items-center justify-between mt-4">
-                  <p className="font-bold">{formatIDR(product.price)}</p>
+                  <p className="font-bold">{formatKES(product.price)}</p>
                   <div className="flex gap-2">
                     <button onClick={() => setEditingId(product.id)} className="rounded-full border border-gray-300 px-4 py-2 text-xs font-bold uppercase hover:bg-gray-50">
                       Edit

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, PackageCheck } from 'lucide-react';
 import { apiRequest } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
-import { formatIDR } from '../lib/currency';
+import { formatKES } from '../lib/currency';
 
 // Tailwind classes per order status for the badge.
 const statusStyles: Record<string, string> = {
@@ -59,7 +59,7 @@ const Orders = () => {
       <div className="flex items-end justify-between gap-6 mb-8">
         <div>
           <h1 className="text-3xl font-bold uppercase tracking-tight">Orders</h1>
-          <p className="text-gray-500 font-mono text-sm mt-2">Your submitted RAWBLOX orders.</p>
+          <p className="text-gray-500 font-mono text-sm mt-2">Your submitted KITENGI orders.</p>
         </div>
       </div>
 
@@ -80,7 +80,7 @@ const Orders = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 border-b border-gray-100 pb-4 mb-4">
               <div>
                 <p className="font-mono text-xs text-gray-500 uppercase">Order #{order.id.slice(0, 8)}</p>
-                <h2 className="text-xl font-bold uppercase mt-1">{formatIDR(order.total)}</h2>
+                <h2 className="text-xl font-bold uppercase mt-1">{formatKES(order.total)}</h2>
               </div>
               <div className="text-left md:text-right">
                 <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold uppercase text-white ${statusStyles[order.status] || 'bg-black'}`}>
@@ -94,7 +94,7 @@ const Orders = () => {
               {order.items.map((item: any) => (
                 <div key={item.id} className="flex justify-between gap-4 font-mono text-sm">
                   <span>{item.name} x {item.quantity}</span>
-                  <span>{formatIDR(item.price * item.quantity)}</span>
+                  <span>{formatKES(item.price * item.quantity)}</span>
                 </div>
               ))}
             </div>

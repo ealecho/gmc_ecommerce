@@ -5,8 +5,8 @@ import { badRequest, toErrorResponse } from '../lib/errors.js';
 
 import { AppEnv } from '../types.js';
 
-// Flat shipping fee in whole IDR rupiah.
-const SHIPPING_CENTS = 262500;
+// Flat shipping fee in whole Kenyan shillings.
+const SHIPPING_CENTS = 250;
 
 const readOrders = async (sql: any, userId: string) => {
   const orders = await sql`

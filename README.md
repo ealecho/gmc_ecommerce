@@ -1,8 +1,8 @@
-# RawBlocks
+# Kitengi
 
 A streetwear e-commerce app built with React + Vite on the frontend and a [Hono](https://hono.dev) API running on [Cloudflare Workers](https://workers.cloudflare.com). Data and auth are powered by [Neon](https://neon.tech) (Postgres + Neon Auth).
 
-Live: https://rawblocks.faizintifada.com
+Live: https://kitengi.alaara.workers.dev
 
 ## Tech Stack
 
@@ -110,16 +110,25 @@ Run the migrations in `migrations/` against your Neon database in order (e.g. vi
 
 - `001_initial_neon.sql` — initial schema (products, cart, orders, etc.)
 - `002_product_sort_order.sql` — adds manual product ordering (`sort_order`)
-- `003_idr_currency.sql` — converts stored monetary values from USD cents to whole IDR rupiah
-> Monetary `*_cents` columns hold whole Indonesian rupiah (IDR), not sub-units. Migration `003` is idempotent-guarded via a `schema_migrations` marker, so it won't double-convert on re-run.
+- `003_kes_currency.sql` — marks stored monetary values as whole Kenyan shillings
+
+Or run them from this repo:
+
+```bash
+npm run migrate
+```
+
+> Monetary `*_cents` columns hold whole Kenyan shillings (KES), not sub-units. The legacy column names are kept to avoid unnecessary schema churn.
 
 ### 4. Create the R2 bucket (for image uploads)
 
 Product images are stored in Cloudflare R2 under the `MEDIA` binding (see `wrangler.toml`). Create the bucket once:
 
 ```bash
-wrangler r2 bucket create rawblocks-media
+wrangler r2 bucket create kitengi-media
 ```
+
+The first Cloudflare deployment can also auto-provision this bucket from `wrangler.toml`.
 
 ### 5. Run locally
 
@@ -137,6 +146,7 @@ The Cloudflare Vite plugin runs the Worker (API) and the React app together on a
 | `npm run build` | Build the client and Worker bundles |
 | `npm run preview` | Preview the production build locally |
 | `npm run deploy` | Build and deploy to Cloudflare Workers |
+| `npm run migrate` | Apply Neon schema migrations |
 | `npm run typecheck`| Run TypeScript compiler to typecheck without emitting files |
 | `npm run lint` | Run ESLint |
 
@@ -144,10 +154,16 @@ The Cloudflare Vite plugin runs the Worker (API) and the React app together on a
 
 Deploys to Cloudflare Workers via Wrangler. Configuration lives in `wrangler.toml`.
 
+Current Workers deployment:
+
+```text
+https://kitengi.alaara.workers.dev
+```
+
 ### Create the R2 bucket (once)
 
 ```bash
-wrangler r2 bucket create rawblocks-media
+wrangler r2 bucket create kitengi-media
 ```
 
 ### Set production secrets (once)

@@ -42,7 +42,7 @@ const Promo = () => {
             BUILT BY THE STREETS,<br />MADE FOR YOU
           </h3>
           <p className="text-gray-400 font-mono text-sm leading-relaxed">
-            Rawblox is more than fashion—it's a way of life. Join the movement.
+            Kitengi is more than fashion—it's a way of life. Join the movement.
           </p>
         </FadeIn>
 
