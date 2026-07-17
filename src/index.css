@@ -23,6 +23,19 @@ body {
   animation: marquee 20s linear infinite;
 }
 
+.auth-card {
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --background: #ffffff;
+  --foreground: #111111;
+}
+
+.auth-card button[type="submit"],
+.auth-card button[data-slot="button"] {
+  background: #000000;
+  color: #ffffff;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 500;

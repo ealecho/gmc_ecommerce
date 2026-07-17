@@ -104,6 +104,18 @@ NEON_AUTH_AUDIENCE=""
 
 > `.env` and `.dev.vars` are gitignored. Never commit secrets.
 
+### Auth allowed origins
+
+Neon Auth must allow every browser origin that uses the auth UI. Add these in
+the Neon Auth configuration for this project:
+
+```text
+http://localhost:5173
+https://kitengi.alaara.workers.dev
+```
+
+If you later attach a custom domain, add that origin too.
+
 ### 3. Apply the database schema
 
 Run the migrations in `migrations/` against your Neon database in order (e.g. via the Neon SQL editor or `psql`):

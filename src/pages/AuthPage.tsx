@@ -14,7 +14,7 @@ const AuthPage = () => {
         KITENGI
       </Link>
 
-      <div className="w-full max-w-md rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="auth-card w-full max-w-md rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
         {isConfigured ? (
           <AuthView path={path} />
         ) : (
