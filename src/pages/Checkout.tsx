@@ -49,14 +49,7 @@ const Checkout = () => {
       });
       clearCart();
 
-      if (order.paymentLink) {
-        toast.success('Redirecting to secure payment...');
-        // Hand off to Mayar's hosted checkout page.
-        window.location.href = order.paymentLink;
-        return;
-      }
-
-      toast.success(`Order #${order.id.slice(0, 8)} created`);
+      toast.success(`Order #${order.id.slice(0, 8)} placed`);
       navigate('/orders');
     } catch (error: any) {
       toast.error(error.message);
@@ -157,13 +150,12 @@ const Checkout = () => {
               <section>
                 <h2 className="text-xl font-bold uppercase mb-4">Payment</h2>
                 <p className="text-sm text-gray-500 mb-4 flex items-center gap-2">
-                  <ShieldCheck size={16} /> Secure payment powered by Mayar.
+                  <ShieldCheck size={16} /> Demo payment mode.
                 </p>
                 <div className="space-y-4 bg-gray-50 p-6 rounded-2xl border border-gray-200">
                   <p className="font-mono text-sm text-gray-500">
-                    After placing your order you'll be redirected to Mayar's secure
-                    checkout to complete payment via bank transfer, e-wallet, QRIS,
-                    or card.
+                    Dummy checkout is enabled. Placing an order marks it as paid
+                    immediately for demo purposes.
                   </p>
                 </div>
               </section>
@@ -173,7 +165,7 @@ const Checkout = () => {
                 disabled={isSubmitting}
                 className="w-full bg-black text-white py-4 rounded-full font-bold uppercase tracking-wide hover:bg-gray-800 transition-colors text-lg mt-4 disabled:opacity-60"
               >
-                {isSubmitting ? 'Redirecting to payment...' : `Pay ${formatIDR(total)}`}
+                {isSubmitting ? 'Placing order...' : `Place order ${formatIDR(total)}`}
               </button>
             </form>
           </FadeIn>

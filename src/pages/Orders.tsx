@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowLeft, PackageCheck } from 'lucide-react';
-import { toast } from 'sonner';
 import { apiRequest } from '../lib/api';
 import { useAuth } from '../context/AuthContext';
 import { formatIDR } from '../lib/currency';
@@ -19,12 +18,9 @@ const Orders = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
-  const [searchParams] = useSearchParams();
-  const returnedOrderId = searchParams.get('order');
 
-  // Wait for auth to settle before fetching. Coming back from Mayar is a full
-  // page load, so the access token may not be ready on first render; fetching
-  // too early yields a spurious "Authentication required." error.
+  // Wait for auth to settle before fetching to avoid a spurious
+  // "Authentication required." error while the token is loading.
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
@@ -34,10 +30,6 @@ const Orders = () => {
     }
 
     let cancelled = false;
-    let attempts = 0;
-    // If we just returned from payment, the webhook may land a moment later,
-    // so poll a few times until the order flips to paid.
-    const maxAttempts = returnedOrderId ? 6 : 1;
 
     const load = async () => {
       try {
@@ -45,15 +37,6 @@ const Orders = () => {
         if (cancelled) return;
         setOrders(nextOrders);
         setError('');
-
-        const target = returnedOrderId
-          ? nextOrders.find((o: any) => o.id === returnedOrderId)
-          : null;
-        attempts += 1;
-        if (target && target.status === 'pending' && attempts < maxAttempts) {
-          setTimeout(load, 2500);
-          return;
-        }
       } catch (nextError: any) {
         if (!cancelled) setError(nextError.message);
       } finally {
@@ -65,14 +48,7 @@ const Orders = () => {
     return () => {
       cancelled = true;
     };
-  }, [authLoading, user, returnedOrderId]);
-
-  // When Mayar redirects back with ?order=<id>, acknowledge the return.
-  useEffect(() => {
-    if (returnedOrderId) {
-      toast.success('Thanks! We are confirming your payment.');
-    }
-  }, [returnedOrderId]);
+  }, [authLoading, user]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-12 py-12">
@@ -111,14 +87,6 @@ const Orders = () => {
                   {order.status}
                 </span>
                 <p className="font-mono text-xs text-gray-500 mt-2">{new Date(order.createdAt).toLocaleString()}</p>
-                {order.status === 'pending' && order.paymentLink && (
-                  <a
-                    href={order.paymentLink}
-                    className="mt-3 inline-flex rounded-full bg-black px-4 py-2 text-xs font-bold uppercase text-white hover:bg-gray-800 transition-colors"
-                  >
-                    Pay now
-                  </a>
-                )}
               </div>
             </div>
 

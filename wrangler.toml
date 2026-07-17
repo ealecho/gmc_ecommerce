@@ -17,10 +17,8 @@ run_worker_first = ["/api/*"]
 binding = "MEDIA"
 bucket_name = "rawblocks-media"
 
-# Non-secret vars can go here. Secrets (DATABASE_URL, NEON_AUTH_*, MAYAR_*) come
+# Non-secret vars can go here. Secrets (DATABASE_URL, NEON_AUTH_*) come
 # from `.dev.vars` in dev and `wrangler secret put` in production.
 [vars]
 NEON_AUTH_ISSUER = ""
 NEON_AUTH_AUDIENCE = ""
-# Mayar environment: 'production' uses api.mayar.id, otherwise sandbox api.mayar.club.
-MAYAR_ENV = "production"

@@ -2,7 +2,6 @@ import { Hono } from 'hono';
 import { requireUser } from '../lib/auth.js';
 import { getSql } from '../lib/db.js';
 import { badRequest, toErrorResponse } from '../lib/errors.js';
-import { createPaymentRequest } from '../lib/mayar.js';
 
 import { AppEnv } from '../types.js';
 
@@ -37,8 +36,6 @@ const readOrders = async (sql: any, userId: string) => {
     shipping: order.shipping_cents,
     total: order.total_cents,
     shippingDetails: order.shipping_details,
-    paymentLink: order.payment_link,
-    paidAt: order.paid_at,
     createdAt: order.created_at,
     items: items
       .filter((item: any) => item.order_id === order.id)
@@ -111,10 +108,11 @@ orders.post('/', async (c) => {
         from cart_snapshot
       ),
       created_order as (
-        insert into orders (user_id, email, subtotal_cents, shipping_cents, total_cents, shipping_details)
+        insert into orders (user_id, email, status, subtotal_cents, shipping_cents, total_cents, shipping_details)
         select
           ${user.id},
           ${shippingDetails.email},
+          'paid',
           totals.subtotal_cents,
           case when totals.subtotal_cents > 0 and totals.has_shippable then ${SHIPPING_CENTS} else 0 end,
           totals.subtotal_cents + case when totals.subtotal_cents > 0 and totals.has_shippable then ${SHIPPING_CENTS} else 0 end,
@@ -142,41 +140,13 @@ orders.post('/', async (c) => {
       throw badRequest('Cart is empty');
     }
 
-    // Create the hosted Mayar payment request for this order. The customer is
-    // redirected to `paymentLink`; the payment.received webhook later marks the
-    // order paid. If payment creation fails we surface the error but leave the
-    // pending order in place so the user can retry from the Orders page.
-    const baseUrl = (c.env.PUBLIC_BASE_URL || new URL(c.req.url).origin).replace(/\/$/, '');
-    const customerName =
-      [shippingDetails.firstName, shippingDetails.lastName].filter(Boolean).join(' ') ||
-      shippingDetails.email;
-
-    const payment = await createPaymentRequest(c.env, {
-      name: customerName,
-      email: shippingDetails.email,
-      amount: order.total_cents,
-      description: `RAWBLOX order #${String(order.id).slice(0, 8)}`,
-      redirectUrl: `${baseUrl}/orders?order=${order.id}`,
-    });
-
-    const [updated] = await sql`
-      update orders set
-        payment_provider = 'mayar',
-        payment_id = ${payment.id},
-        payment_transaction_id = ${payment.transactionId},
-        payment_link = ${payment.link}
-      where id = ${order.id}
-      returning *
-    `;
-
     return c.json(
       {
         order: {
-          id: updated.id,
-          status: updated.status,
-          total: updated.total_cents,
-          paymentLink: updated.payment_link,
-          createdAt: updated.created_at,
+          id: order.id,
+          status: order.status,
+          total: order.total_cents,
+          createdAt: order.created_at,
         },
       },
       201,
